@@ -4,7 +4,7 @@ class json_parser:
     def __init__(self):
         pass
 
-    def repair(self, json_string: str) -> dict:
+    def repair(self, json_string: str) -> dict | None:
         try:
             return json.loads(json_string)
         except:
