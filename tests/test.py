@@ -7,6 +7,7 @@ from json_repair import repair_json
 class TestJsonRepair(unittest.TestCase):
     def test_basic_types_valid(self):
         self.assertEqual(repair_json('{"test": 123}'), {"test": 123})
+        self.assertEqual(repair_json('{"test": '), {"test": 123})
 
 
 class TestExceptions(unittest.TestCase):
