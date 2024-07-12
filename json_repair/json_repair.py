@@ -1,11 +1,39 @@
 import json
 import re
-from json_repair.lib import format_attributes_with_quotes
+
+
 
 class json_parser:
     def __init__(self):
         pass
 
+    @staticmethod
+    def add_quotes(match):
+        return f'"{match.group(0)}"'
+    
+    @staticmethod
+    def find_attributes_before_colon(input_string):
+        pattern = r'\S+(?=\s*:)'
+        matches = re.findall(pattern, input_string)
+        return matches
+    
+    def format_attributes_with_quotes(self, input_string):
+        matches = self.find_attributes_before_colon(input_string)
+    
+        filtered_matches = []
+        for match in matches:
+            if not (match.startswith('"') and match.endswith('"')):
+                filtered_matches.append(match)
+        
+        if filtered_matches:
+            formatted_string = input_string
+            for match in filtered_matches:
+                if not formatted_string.startswith(f'"{match}"') and not formatted_string.startswith(f"'{match}'"):
+                    formatted_string = formatted_string.replace(match, f'"{match}"', 1)
+            return formatted_string
+        else:
+            return input_string
+    
     def repair(self, json_string: str) -> dict | None:
         self.json_str = json_string
         self.front_quotation = self.json_str.count("{")
@@ -38,10 +66,7 @@ class json_parser:
         elif "Expecting value" in self.error_msg :
             pattern = re.compile(r'\b(True|False)\b', re.IGNORECASE)
             
-            def add_quotes(match):
-                return f'"{match.group(0)}"'
-            
-            self.json_str = pattern.sub(add_quotes, self.json_str)
+            self.json_str = pattern.sub(self.add_quotes, self.json_str)
             try : 
                 return json.loads(self.json_str)
             except :
@@ -58,7 +83,7 @@ class json_parser:
                 if index >= 0 and self.json_str[index] == ",":
                     self.json_str = self.json_str[:index] + self.json_str[index+1:] 
                         
-            self.json_str = format_attributes_with_quotes(self.json_str)
+            self.json_str = self.format_attributes_with_quotes(self.json_str)
             try : 
                 return json.loads(self.json_str)
             except :
