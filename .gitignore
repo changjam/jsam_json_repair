@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.log
+jsam_json_repair.egg-info/
+dist/
+build/
+.env
