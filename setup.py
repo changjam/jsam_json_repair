@@ -13,16 +13,13 @@ URL = f"https://github.com/changjam/{PACKAGE_NAME}"
 DOWNLOAD_URL = f"https://pypi.org/project/{PACKAGE_NAME}/"
 
 LICENSE = "MIT"
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 DESCRIPTION = "This is a Python package for repairing JSON string."
-LONG_DESCRIPTION = (HERE / "docs" / "README.md").read_text(encoding="utf8")
+LONG_DESCRIPTION = (HERE / "doc" / "readme.md").read_text(encoding="utf8")
 LONG_DESC_TYPE = "text/markdown"
 
-requirements = (HERE / "requirements.txt").read_text(encoding="utf8")
+requirements = (HERE / "doc" / "dev-requirements.txt").read_text(encoding="utf8")
 INSTALL_REQUIRES = [s.strip() for s in requirements.split("\n")]
-
-dev_requirements = (HERE / "dev_requirements.txt").read_text(encoding="utf8")
-EXTRAS_REQUIRE = {"dev": [s.strip() for s in dev_requirements.split("\n")]}
 
 CLASSIFIERS = [f"Programming Language :: Python :: 3.{str(v)}" for v in range(7, 12)]
 PYTHON_REQUIRES = ">=3.7"
@@ -40,7 +37,6 @@ setup(
     download_url=DOWNLOAD_URL,
     python_requires=PYTHON_REQUIRES,
     install_requires=INSTALL_REQUIRES,
-    extras_require=EXTRAS_REQUIRE,
     packages=find_packages(),
     classifiers=CLASSIFIERS,
 )
