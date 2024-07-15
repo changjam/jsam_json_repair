@@ -35,7 +35,7 @@ class json_parser:
             return input_string
     
     def repair(self, json_string: str) -> dict | None:
-        self.json_str = json_string
+        self.json_str = json_string.replace("'",'"')
         self.front_quotation = self.json_str.count("{")
         self.end_quotation = self.json_str.count("}")
         self.front_list = self.json_str.count("[")
@@ -63,13 +63,18 @@ class json_parser:
                 return json.loads(self.json_str)
             except :
                 return None
-        elif "Expecting value" in self.error_msg :
+        elif "Expecting value" in self.error_msg:
+            self.json_str = re.sub(r'\bnone\b', 'null', self.json_str, flags=re.IGNORECASE)
             pattern = re.compile(r'\b(True|False)\b', re.IGNORECASE)
+
+            def to_lowercase(match):
+                return match.group(0).lower()
+
+            self.json_str = pattern.sub(to_lowercase, self.json_str)
             
-            self.json_str = pattern.sub(self.add_quotes, self.json_str)
-            try : 
+            try:
                 return json.loads(self.json_str)
-            except :
+            except:
                 return None
         elif "Expecting property name enclosed in double quotes" in self.error_msg :
             #end_quotation_index = self.json_str.rfind("}")

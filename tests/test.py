@@ -16,10 +16,12 @@ class TestJsonRepair(unittest.TestCase):
         self.assertEqual(repair_json(ERROR_FORMAT3), CORRECT_FORMAT3)
     def test_missing_parentheses(self):
         self.assertEqual(repair_json(ERROR_FORMAT4), CORRECT_FORMAT4)
-    # def test_error_boolean_value(self):
-    #     print(repair_json(ERROR_FORMAT5))
-    #     self.assertEqual(repair_json(ERROR_FORMAT5), CORRECT_FORMAT5)
-
+    def test_error_boolean_value(self):
+        self.assertEqual(repair_json(ERROR_FORMAT5), CORRECT_FORMAT5)
+    def test_error_apostrophe(self):
+        self.assertEqual(repair_json(ERROR_FORMAT6), CORRECT_FORMAT6)
+    def test_error_none(self):
+        self.assertEqual(repair_json(ERROR_FORMAT7), CORRECT_FORMAT7)
 
 class TestExceptions(unittest.TestCase):
     def test_invalid_json(self):
