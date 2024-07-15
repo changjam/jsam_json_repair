@@ -125,7 +125,6 @@ ERROR_FORMAT6 = """
     }
 ]
 """
-
 CORRECT_FORMAT6 = [
     {
         "id": 1,
@@ -135,6 +134,7 @@ CORRECT_FORMAT6 = [
         "tags": ["developer", "javascript", "vuejs"]
     }
 ]
+
 
 ERROR_FORMAT7 = """
 [
@@ -147,7 +147,6 @@ ERROR_FORMAT7 = """
     }
 ]
 """
-
 CORRECT_FORMAT7 = [
     {
         'id': 1, 
