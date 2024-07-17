@@ -15,7 +15,7 @@ DOWNLOAD_URL = f"https://pypi.org/project/{PACKAGE_NAME}/"
 LICENSE = "MIT"
 VERSION = "0.0.3"
 DESCRIPTION = "This is a Python package for repairing JSON string."
-LONG_DESCRIPTION = (HERE / "doc" / "readme.md").read_text(encoding="utf8")
+LONG_DESCRIPTION = (HERE / "readme.md").read_text(encoding="utf8")
 LONG_DESC_TYPE = "text/markdown"
 
 requirements = (HERE / "doc" / "dev-requirements.txt").read_text(encoding="utf8")
