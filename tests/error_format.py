@@ -156,3 +156,21 @@ CORRECT_FORMAT7 = [
         'tags': ['developer', 'javascript', 'vuejs']
     }
 ]
+
+
+# Missing one comma
+ERROR_FORMAT8 = """
+{"name": "John", "age": 30, "city": "New York}
+"""
+CORRECT_FORMAT8 = {
+    "name": "John", 
+    "age": 30, 
+    "city": "New York"
+}
+
+
+# Key or value missing comma
+ERROR_FORMAT9 = """
+{"fail": fail}
+"""
+CORRECT_FORMAT9 = {"fail": "fail"}

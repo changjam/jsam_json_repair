@@ -4,10 +4,15 @@ from error_format import *
 
 
 
-
-class TestJsonRepair(unittest.TestCase):
-    def test_basic_types_valid(self):
+class TestNoBrokenJson(unittest.TestCase):
+    def test_basic_types_int_valid(self):
         self.assertEqual(repair_json('{"test": 123}'), {"test": 123})
+    def test_basic_types_str_valid(self):
+        self.assertEqual(repair_json('{"hello": "world"}'), {"hello": "world"})
+    def test_basic_types_bool_valid(self):
+        self.assertEqual(repair_json('{"is_success": true}'), {"is_success": True})
+
+class TestBrokenJson(unittest.TestCase):
     def test_lack_of_comma(self):
         self.assertEqual(repair_json(ERROR_FORMAT1), CORRECT_FORMAT1)
     def test_redundant_comma_at_the_end(self):
