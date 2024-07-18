@@ -7,3 +7,9 @@ This is a Python package for repairing JSON string.
 ```bash
 python -m unittest discover -s tests -v
 ```
+
+# Uploaded to PyPI
+```bash
+python setup.py sdist bdist_wheel
+twine upload  --skip-existing dist/*
+```
