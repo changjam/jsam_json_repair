@@ -2,6 +2,8 @@
 
 `jsam_json_repair` is a Python package designed to repair and fix malformed JSON strings, ensuring they can be parsed correctly. This tool is essential for developers working with JSON data that may be incomplete or contain errors.
 
+![json_repair_meme](./img/llm_json_format.jpg)
+
 ## Features
 - Repair broken or malformed JSON strings
 - Maintain the integrity of the original data as much as possible
