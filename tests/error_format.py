@@ -157,3 +157,12 @@ CORRECT_FORMAT7 = [
         'tags': ['developer', 'javascript', 'vuejs']
     }
 ]
+
+ERROR_FORMAT8 = '{"name": "John", "age": 30, "city": "New York}'
+CORRECT_FORMAT8 = {'name': 'John', 'age': 30, 'city': 'New York'}
+
+ERROR_FORMAT9 = '{"fail": fail}'
+CORRECT_FORMAT9 = {"fail": "fail"}
+
+ERROR_FORMAT10 = '{fail: fail}'
+CORRECT_FORMAT10 = {"fail": "fail"}
