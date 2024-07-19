@@ -58,11 +58,11 @@ ERROR_FORMAT3 = """
 """
 CORRECT_FORMAT3 = [
     {
-        "id": 1,
-        "name": "Alice",
-        "age": 30,
-        "email": "alice@example.com",
-        "tags": ["developer", "javascript", "vuejs"]
+        'id': 1, 
+        'name': 'Alice', 
+        'age': 30, 
+        'email': 'alice@example.com', 
+        'tags': ['developer', 'javascript', 'vuejs']
     }
 ]
 
