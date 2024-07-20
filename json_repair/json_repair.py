@@ -133,10 +133,10 @@ class json_parser:
                 if next_comma_or_brace:
                     insert_pos = last_quote_pos + next_comma_or_brace.start()
                     json_str = json_str[:insert_pos] + '"' + json_str[insert_pos:]
-        try : 
-            return json.loads(json_str)
-        except :
-            return self.repair(json_str,recursion_count + 1)
+
+
+        return self.repair(json_str, recursion_count + 1)
+
 
 def repair_json(input_string: str) -> dict:
     json_parser_instance = json_parser()
