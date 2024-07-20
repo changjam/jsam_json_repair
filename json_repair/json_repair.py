@@ -37,6 +37,13 @@ class json_parser:
     def repair(self, json_string: str , recursion_count=0) -> dict | None:
         if recursion_count >= 2:
             return None
+
+        try:
+            return json.loads(json_string)
+        except json.JSONDecodeError as e:
+            error_msg = e.msg 
+            error_position = e.pos
+        
         json_str = json_string.replace("'",'"')
         front_quotation = json_str.count("{")
         end_quotation = json_str.count("}")
@@ -44,12 +51,6 @@ class json_parser:
         end_list = json_str.count("]")
         sin_quot = json_str.count("'")
         doub_quot = json_str.count('"')
-
-        try:
-            return json.loads(json_string)
-        except json.JSONDecodeError as e:
-            error_msg = e.msg 
-            error_position = e.pos
         
         # fix missing comma at the end of value
         if "Expecting ',' delimiter" in error_msg : 
@@ -67,12 +68,7 @@ class json_parser:
             json_str = re.sub(r'\bnone\b', 'null', json_str, flags=re.IGNORECASE)
 
             # fix booleans
-            pattern = re.compile(r'\b(True|False)\b', re.IGNORECASE)
-
-            def to_lowercase(match):
-                return match.group(0).lower()
-
-            json_str = pattern.sub(to_lowercase, json_str)
+            json_str = re.sub(r'\b(True|False)\b', lambda match: match.group(0).lower(), json_str, flags=re.IGNORECASE)
 
             # fix missing quotes at the value
             value = ''
