@@ -58,11 +58,11 @@ ERROR_FORMAT3 = """
 """
 CORRECT_FORMAT3 = [
     {
-        "id": 1,
-        "name": "Alice",
-        "age": 30,
-        "email": "alice@example.com",
-        "tags": ["developer", "javascript", "vuejs"]
+        'id': 1, 
+        'name': 'Alice', 
+        'age': 30, 
+        'email': 'alice@example.com', 
+        'tags': ['developer', 'javascript', 'vuejs']
     }
 ]
 
@@ -158,19 +158,12 @@ CORRECT_FORMAT7 = [
 ]
 
 
-# Missing one comma
-ERROR_FORMAT8 = """
-{"name": "John", "age": 30, "city": "New York}
-"""
-CORRECT_FORMAT8 = {
-    "name": "John", 
-    "age": 30, 
-    "city": "New York"
-}
+ERROR_FORMAT8 = '{"name": "John", "age": 30, "city": "New York}'
+CORRECT_FORMAT8 = {'name': 'John', 'age': 30, 'city': 'New York'}
 
-
-# Key or value missing comma
-ERROR_FORMAT9 = """
-{"fail": fail}
-"""
+ERROR_FORMAT9 = '{"fail": fail}'
 CORRECT_FORMAT9 = {"fail": "fail"}
+
+ERROR_FORMAT10 = '{fail: fail}'
+CORRECT_FORMAT10 = {"fail": "fail"}
+

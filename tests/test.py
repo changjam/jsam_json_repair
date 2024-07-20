@@ -27,6 +27,12 @@ class TestBrokenJson(unittest.TestCase):
         self.assertEqual(repair_json(ERROR_FORMAT6), CORRECT_FORMAT6)
     def test_error_none(self):
         self.assertEqual(repair_json(ERROR_FORMAT7), CORRECT_FORMAT7)
+    def test_missing_quot(self):
+        self.assertEqual(repair_json(ERROR_FORMAT8), CORRECT_FORMAT8)
+    def test_missing_two_quotes(self):
+        self.assertEqual(repair_json(ERROR_FORMAT9), CORRECT_FORMAT9)
+    def test_key_val_missing_quot(self):
+        self.assertEqual(repair_json(ERROR_FORMAT10), CORRECT_FORMAT10)
 
 class TestExceptions(unittest.TestCase):
     def test_invalid_json(self):
