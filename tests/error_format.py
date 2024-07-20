@@ -45,7 +45,7 @@ CORRECT_FORMAT2 = [
 
 
 # Missing quotation marks
-ERROR_FORMAT3 = """
+ERROR_FORMAT3_1 = """
 [
     {
         id: 1,
@@ -56,7 +56,7 @@ ERROR_FORMAT3 = """
     }
 ]
 """
-CORRECT_FORMAT3 = [
+CORRECT_FORMAT3_1 = [
     {
         'id': 1, 
         'name': 'Alice', 
@@ -65,6 +65,14 @@ CORRECT_FORMAT3 = [
         'tags': ['developer', 'javascript', 'vuejs']
     }
 ]
+ERROR_FORMAT3_2 = '{"name": "John", "age": 30, "city": "New York}'
+CORRECT_FORMAT3_2 = {'name': 'John', 'age': 30, 'city': 'New York'}
+
+ERROR_FORMAT3_3 = '{"fail": fail}'
+CORRECT_FORMAT3_3 = {"fail": "fail"}
+
+ERROR_FORMAT3_4 = '{fail: fail}'
+CORRECT_FORMAT3_4 = {"fail": "fail"}
 
 
 # Missing parentheses }
@@ -114,6 +122,7 @@ CORRECT_FORMAT5 = [
 ]
 
 
+# use error apostrophe
 ERROR_FORMAT6 = """
 [
     {
@@ -136,6 +145,7 @@ CORRECT_FORMAT6 = [
 ]
 
 
+# use None value, which should be null
 ERROR_FORMAT7 = """
 [
     {
@@ -157,13 +167,4 @@ CORRECT_FORMAT7 = [
     }
 ]
 
-
-ERROR_FORMAT8 = '{"name": "John", "age": 30, "city": "New York}'
-CORRECT_FORMAT8 = {'name': 'John', 'age': 30, 'city': 'New York'}
-
-ERROR_FORMAT9 = '{"fail": fail}'
-CORRECT_FORMAT9 = {"fail": "fail"}
-
-ERROR_FORMAT10 = '{fail: fail}'
-CORRECT_FORMAT10 = {"fail": "fail"}
 
