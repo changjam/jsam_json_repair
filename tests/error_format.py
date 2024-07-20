@@ -157,6 +157,7 @@ CORRECT_FORMAT7 = [
     }
 ]
 
+
 ERROR_FORMAT8 = '{"name": "John", "age": 30, "city": "New York}'
 CORRECT_FORMAT8 = {'name': 'John', 'age': 30, 'city': 'New York'}
 
