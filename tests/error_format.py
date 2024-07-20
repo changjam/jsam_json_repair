@@ -74,6 +74,8 @@ CORRECT_FORMAT3_3 = {"fail": "fail"}
 ERROR_FORMAT3_4 = '{fail: fail}'
 CORRECT_FORMAT3_4 = {"fail": "fail"}
 
+ERROR_FORMAT3_5 = '{"fail": "fail, "test": "test"}'
+CORRECT_FORMAT3_5 = {"fail": "fail", "test": "test"}
 
 # Missing parentheses }
 ERROR_FORMAT4 = """

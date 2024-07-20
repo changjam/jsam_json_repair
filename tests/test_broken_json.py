@@ -14,6 +14,7 @@ class TestBrokenJson(unittest.TestCase):
         self.assertEqual(repair_json(ERROR_FORMAT3_2), CORRECT_FORMAT3_2)
         self.assertEqual(repair_json(ERROR_FORMAT3_3), CORRECT_FORMAT3_3)
         self.assertEqual(repair_json(ERROR_FORMAT3_4), CORRECT_FORMAT3_4)
+        # self.assertEqual(repair_json(ERROR_FORMAT3_5), CORRECT_FORMAT3_5)
 
     def test_missing_parentheses(self):
         self.assertEqual(repair_json(ERROR_FORMAT4), CORRECT_FORMAT4)
