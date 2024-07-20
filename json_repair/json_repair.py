@@ -89,10 +89,10 @@ class json_parser:
         elif "Expecting property name enclosed in double quotes" in self.error_msg :
             # fix missing
             copy_json_str = self.json_str
-            end_quotation_index = self.json_str.rfind("}") if self.json_str.rfind("}") != -1 else 0
+            end_quotation_index = self.json_str.rfind("}")
 
             # fix missing double quotes
-            if end_quotation_index != 0:
+            if end_quotation_index != -1:
                 index = end_quotation_index - 1
                 while index >= 0 and self.json_str[index] in [" ", "\n", "\t"]:
                     index -= 1
