@@ -51,17 +51,16 @@ class json_parser:
             error_msg = e.msg 
             error_position = e.pos
         
-        # fix missing end quotation, (error msg: Expecting ',' delimiter)
-        if front_quotation > end_quotation :
-            json_str = json_str[:error_position] + "}" + json_str[error_position:]
-        
-        # fix missing end list 
-        elif front_list > end_list :
-            json_str = json_str[:error_position] + "]" + json_str[error_position:]
-        
         # fix missing comma at the end of value
-        elif "Expecting ',' delimiter" in error_msg : 
-            json_str = json_str[:error_position] + "," + json_str[error_position:]
+        if "Expecting ',' delimiter" in error_msg : 
+            lack_symbol = ''
+            if front_quotation > end_quotation :
+                lack_symbol = "}"
+            elif front_list > end_list :
+                lack_symbol = "]"
+            else:
+                lack_symbol = ','
+            json_str = json_str[:error_position] + lack_symbol + json_str[error_position:]
 
         elif "Expecting value" in error_msg:
             # let none to null
