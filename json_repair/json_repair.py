@@ -34,65 +34,103 @@ class json_parser:
         else:
             return input_string
     
-    def repair(self, json_string: str) -> dict | None:
-        self.json_str = json_string.replace("'",'"')
-        self.front_quotation = self.json_str.count("{")
-        self.end_quotation = self.json_str.count("}")
-        self.front_list = self.json_str.count("[")
-        self.end_list = self.json_str.count("]")
+    def repair(self, json_string: str , recursion_count=0) -> dict | None:
+        if recursion_count >= 2:
+            return None
+
         try:
             return json.loads(json_string)
         except json.JSONDecodeError as e:
-            self.error_msg = e.msg 
-            self.error_position = e.pos
-        if self.front_quotation > self.end_quotation :
-            self.json_str = self.json_str[:self.error_position] + "}" + self.json_str[self.error_position:]
-            try : 
-                return json.loads(self.json_str)
-            except :
-                return None
-        elif self.front_list > self.end_list :
-            self.json_str = self.json_str[:self.error_position] + "]" + self.json_str[self.error_position:]
-            try : 
-                return json.loads(self.json_str)
-            except :
-                return None
-        elif "Expecting ',' delimiter" in self.error_msg : 
-            self.json_str = self.json_str[:self.error_position] + "," + self.json_str[self.error_position:]
-            try : 
-                return json.loads(self.json_str)
-            except :
-                return None
-        elif "Expecting value" in self.error_msg:
-            self.json_str = re.sub(r'\bnone\b', 'null', self.json_str, flags=re.IGNORECASE)
-            pattern = re.compile(r'\b(True|False)\b', re.IGNORECASE)
+            error_msg = e.msg 
+            error_position = e.pos
+        
+        json_str = json_string.replace("'",'"')
+        front_quotation = json_str.count("{")
+        end_quotation = json_str.count("}")
+        front_list = json_str.count("[")
+        end_list = json_str.count("]")
+        sin_quot = json_str.count("'")
+        doub_quot = json_str.count('"')
+        
+        # fix missing comma at the end of value
+        if "Expecting ',' delimiter" in error_msg : 
+            lack_symbol = ''
+            if front_quotation > end_quotation :
+                lack_symbol = "}"
+            elif front_list > end_list :
+                lack_symbol = "]"
+            else:
+                lack_symbol = ','
+            json_str = json_str[:error_position] + lack_symbol + json_str[error_position:]
 
-            def to_lowercase(match):
-                return match.group(0).lower()
+        elif "Expecting value" in error_msg:
+            # let none to null
+            json_str = re.sub(r'\bnone\b', 'null', json_str, flags=re.IGNORECASE)
 
-            self.json_str = pattern.sub(to_lowercase, self.json_str)
+            # fix booleans
+            json_str = re.sub(r'\b(True|False)\b', lambda match: match.group(0).lower(), json_str, flags=re.IGNORECASE)
+
+            # fix missing quotes at the value
+            value = ''
+            pattern2 = r': (\w+)(,|\})'
+            matches = re.finditer(pattern2, json_str)
+            for match in matches:
+                value = match.group(1)
             
-            try:
-                return json.loads(self.json_str)
-            except:
-                return None
-        elif "Expecting property name enclosed in double quotes" in self.error_msg :
-            #end_quotation_index = self.json_str.rfind("}")
-            end_quotation_index = self.json_str.rfind("}") if self.json_str.rfind("}") != -1 else 0
+            # fix missing quotes at the key
+            accept_value = ['null','none','NULL','None','Null',"NONE"]
+            if not value.isdecimal() and not value.startswith('"') and not value.endswith('"') and value not in accept_value and value!='':
+                json_str = re.sub(r': (\w+)(,|\})', r': "\1"\2', json_str)
 
-            if end_quotation_index != 0:
+        elif "Expecting property name enclosed in double quotes" in error_msg :
+            # fix missing
+            copy_json_str = json_str
+            end_quotation_index = json_str.rfind("}")
+
+            # fix missing double quotes
+            if end_quotation_index != -1:
                 index = end_quotation_index - 1
-                while index >= 0 and self.json_str[index] in [" ", "\n", "\t"]:
+                while index >= 0 and json_str[index] in [" ", "\n", "\t"]:
                     index -= 1
 
-                if index >= 0 and self.json_str[index] == ",":
-                    self.json_str = self.json_str[:index] + self.json_str[index+1:] 
+                if index >= 0 and json_str[index] == ",":
+                    json_str = json_str[:index] + json_str[index+1:] 
                         
-            self.json_str = self.format_attributes_with_quotes(self.json_str)
-            try : 
-                return json.loads(self.json_str)
-            except :
-                return None
+            json_str = self.format_attributes_with_quotes(json_str)
+            
+            # fix missing quotes between colon
+            value = ''
+            value2 = ''
+            pattern = r'(\w+):'
+            matches = re.finditer(pattern, copy_json_str)
+            for match in matches:
+                value = match.group(1)
+            
+            pattern2 = r': (\w+)(,|\})'
+            matches = re.finditer(pattern2, copy_json_str)
+            for match in matches:
+                value2 = match.group(1)
+
+            if not value.startswith('"') and not value.endswith('"') and value!='':
+                json_str = re.sub(r'(\w+):', r'"\1":', copy_json_str)
+                accept_value = ['null','none','NULL','None','Null',"NONE"]
+                if not value2.isdecimal() and not value2.startswith('"') and not value2.endswith('"') and value2 not in accept_value and value2!='':
+                    json_str = re.sub(r': (\w+)(,|\})', r': "\1"\2', json_str)
+
+        elif "Unterminated string starting at" in error_msg :
+            # fix missing end quote with last value
+            quote_positions = [m.start() for m in re.finditer(r'"', json_str)]
+            
+            if len(quote_positions) % 2 != 0:
+                last_quote_pos = quote_positions[-1]
+
+                next_comma_or_brace = re.search(r'[,\}\]]', json_str[last_quote_pos:])
+                if next_comma_or_brace:
+                    insert_pos = last_quote_pos + next_comma_or_brace.start()
+                    json_str = json_str[:insert_pos] + '"' + json_str[insert_pos:]
+
+
+        return self.repair(json_str, recursion_count + 1)
 
 
 def repair_json(input_string: str) -> dict:

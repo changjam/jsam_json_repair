@@ -12,7 +12,7 @@
 ## Installation
 You can install the `jsam_json_repair` package from PyPI using the following pip command:
 ```bash
-pip install jsam-json-repair
+pip install jsam_json_repair
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ print(fixed_json)
 print(type(fixed_json))
 
 # {"name": "John", "age": 30, "city": "New York"}
-# <class'str'>
+# <class 'dict'>
 ```
 
 ## Changelog

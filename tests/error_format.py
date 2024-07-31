@@ -45,7 +45,7 @@ CORRECT_FORMAT2 = [
 
 
 # Missing quotation marks
-ERROR_FORMAT3 = """
+ERROR_FORMAT3_1 = """
 [
     {
         id: 1,
@@ -56,16 +56,26 @@ ERROR_FORMAT3 = """
     }
 ]
 """
-CORRECT_FORMAT3 = [
+CORRECT_FORMAT3_1 = [
     {
-        "id": 1,
-        "name": "Alice",
-        "age": 30,
-        "email": "alice@example.com",
-        "tags": ["developer", "javascript", "vuejs"]
+        'id': 1, 
+        'name': 'Alice', 
+        'age': 30, 
+        'email': 'alice@example.com', 
+        'tags': ['developer', 'javascript', 'vuejs']
     }
 ]
+ERROR_FORMAT3_2 = '{"name": "John", "age": 30, "city": "New York}'
+CORRECT_FORMAT3_2 = {'name': 'John', 'age': 30, 'city': 'New York'}
 
+ERROR_FORMAT3_3 = '{"fail": fail}'
+CORRECT_FORMAT3_3 = {"fail": "fail"}
+
+ERROR_FORMAT3_4 = '{fail: fail}'
+CORRECT_FORMAT3_4 = {"fail": "fail"}
+
+ERROR_FORMAT3_5 = '{"fail": "fail, "test": "test"}'
+CORRECT_FORMAT3_5 = {"fail": "fail", "test": "test"}
 
 # Missing parentheses }
 ERROR_FORMAT4 = """
@@ -114,6 +124,7 @@ CORRECT_FORMAT5 = [
 ]
 
 
+# use error apostrophe
 ERROR_FORMAT6 = """
 [
     {
@@ -136,6 +147,7 @@ CORRECT_FORMAT6 = [
 ]
 
 
+# use None value, which should be null
 ERROR_FORMAT7 = """
 [
     {
@@ -158,19 +170,3 @@ CORRECT_FORMAT7 = [
 ]
 
 
-# Missing one comma
-ERROR_FORMAT8 = """
-{"name": "John", "age": 30, "city": "New York}
-"""
-CORRECT_FORMAT8 = {
-    "name": "John", 
-    "age": 30, 
-    "city": "New York"
-}
-
-
-# Key or value missing comma
-ERROR_FORMAT9 = """
-{"fail": fail}
-"""
-CORRECT_FORMAT9 = {"fail": "fail"}
